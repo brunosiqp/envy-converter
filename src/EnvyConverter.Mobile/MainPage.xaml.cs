@@ -1,3 +1,9 @@
+using Microsoft.Maui;
+using Microsoft.Maui.ApplicationModel;
+using Microsoft.Maui.ApplicationModel.DataTransfer;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Graphics;
+using Microsoft.Maui.Storage;
 using System.Collections.ObjectModel;
 using EnvyConverter.Conversion;
 using EnvyConverter.Mobile.Services;
