@@ -39,6 +39,7 @@
   <ItemGroup>
     <Resource Include="Assets\app.png" />
     <Resource Include="Assets\app.ico" />
+    <Resource Include="Assets\autor.png" />
     <None Include="tema.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
   </ItemGroup>
 

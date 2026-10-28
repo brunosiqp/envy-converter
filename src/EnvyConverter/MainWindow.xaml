@@ -12,7 +12,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="52" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="34" />
+            <RowDefinition Height="40" />
         </Grid.RowDefinitions>
 
         <!-- Cabeçalho (a barra de título com minimizar/maximizar/fechar é a nativa do Windows) -->
@@ -91,7 +91,7 @@
                                                 </Grid.ColumnDefinitions>
                                                 <Border Width="44" Height="30" CornerRadius="7" Background="{DynamicResource BgBrush}" VerticalAlignment="Center">
                                                     <TextBlock Text="{Binding Extension}" FontSize="11" FontWeight="Bold"
-                                                               Foreground="{DynamicResource Accent2Brush}"
+                                                               Foreground="{DynamicResource LimeBrush}"
                                                                HorizontalAlignment="Center" VerticalAlignment="Center" />
                                                 </Border>
                                                 <StackPanel Grid.Column="1" Margin="12,0" VerticalAlignment="Center">
@@ -101,7 +101,7 @@
                                                 </StackPanel>
                                                 <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
                                                     <Border CornerRadius="8" Padding="9,3" Background="{Binding StatusBrush}">
-                                                        <TextBlock Text="{Binding StatusText}" FontSize="11" FontWeight="SemiBold" Foreground="#0E1120" />
+                                                        <TextBlock Text="{Binding StatusText}" FontSize="11" FontWeight="SemiBold" Foreground="#0B0F14" />
                                                     </Border>
                                                     <Button Style="{StaticResource GhostButton}" Margin="8,0,0,0" Padding="10,4" FontSize="12"
                                                             Content="Abrir" Click="OnOpenOutput" Tag="{Binding}"
@@ -161,10 +161,18 @@
 
         <!-- Rodapé -->
         <Grid Grid.Row="2" Margin="22,0,22,0">
-            <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="11" Style="{StaticResource Muted}">
-                <Run Text="Desenvolvido por" />
-                <Run Text="Bruno Siqueira" FontWeight="SemiBold" Foreground="{DynamicResource TextBrush}" />
-            </TextBlock>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                <!-- Foto do autor: troque Assets/autor.png -->
+                <Ellipse Width="22" Height="22" Margin="0,0,8,0" Stroke="{DynamicResource LineBrush}" StrokeThickness="1">
+                    <Ellipse.Fill>
+                        <ImageBrush ImageSource="pack://application:,,,/Assets/autor.png" Stretch="UniformToFill" />
+                    </Ellipse.Fill>
+                </Ellipse>
+                <TextBlock VerticalAlignment="Center" FontSize="11" Style="{StaticResource Muted}">
+                    <Run Text="Desenvolvido por" />
+                    <Run Text="Bruno Siqueira" FontWeight="SemiBold" Foreground="{DynamicResource TextBrush}" />
+                </TextBlock>
+            </StackPanel>
         </Grid>
     </Grid>
 </Window>
