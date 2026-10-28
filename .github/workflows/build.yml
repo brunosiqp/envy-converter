@@ -43,7 +43,8 @@ jobs:
           name: EnvyConverter-win-x64
           path: EnvyConverter-win-x64.zip
 
-      # Cria a Release da versão do projeto (ex.: v1.1.0) se ela ainda não existir.
+      # Cria a Release da versão do projeto (ex.: v1.2.0) se ainda não existir e anexa
+      # o zip do Windows e o APK Android assinado (guardado no branch android-assinado).
       - name: Publicar release
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         shell: pwsh
@@ -53,8 +54,24 @@ jobs:
           [xml]$proj = Get-Content src/EnvyConverter/EnvyConverter.csproj
           $version = "v" + ($proj.Project.PropertyGroup | Where-Object { $_.Version } | Select-Object -First 1).Version
           gh release view $version *> $null
-          if ($LASTEXITCODE -eq 0) { Write-Host "Release $version já existe."; exit 0 }
-          gh release create $version EnvyConverter-win-x64.zip --target $env:GITHUB_SHA --title "Envy Converter $version" --notes-file .github/release-notes.md
+          if ($LASTEXITCODE -ne 0) {
+            gh release create $version --target $env:GITHUB_SHA --title "Envy Converter $version" --notes-file .github/release-notes.md
+          } else {
+            gh release edit $version --notes-file .github/release-notes.md
+          }
+          gh release upload $version EnvyConverter-win-x64.zip --clobber
+          "VERSION=$version" >> $env:GITHUB_ENV
+
+      - name: Anexar APK Android assinado
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git fetch --depth 1 origin android-assinado || { echo "Sem APK assinado ainda."; exit 0; }
+          git show origin/android-assinado:EnvyConverter.apk > EnvyConverter-android.apk
+          unzip -tq EnvyConverter-android.apk
+          gh release upload "$VERSION" EnvyConverter-android.apk --clobber
 
   android:
     runs-on: ubuntu-latest

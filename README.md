@@ -5,13 +5,18 @@
 <h1 align="center">Envy Converter</h1>
 
 <p align="center">
-  Conversor de <b>PDF para DOCX</b> (e outros formatos) para Windows, sem corromper arquivos.<br/>
-  <i>PDF to DOCX (and more) converter for Windows that never corrupts your files.</i>
+  Conversor de <b>PDF para DOCX</b> (e outros formatos) para <b>Windows</b> e <b>Android</b>, sem corromper arquivos.<br/>
+  <i>PDF to DOCX (and more) converter for <b>Windows</b> and <b>Android</b> that never corrupts your files.</i>
 </p>
 
 <p align="center">
   <a href="#-português">🇧🇷 Português</a> ·
   <a href="#-english">🇺🇸 English</a>
+</p>
+
+<p align="center">
+  <a href="../../releases/latest"><b>⬇️ Baixar para Windows (.zip)</b></a> ·
+  <a href="../../releases/latest"><b>⬇️ Baixar para Android (.apk)</b></a>
 </p>
 
 <p align="center"><b>Desenvolvido por Bruno Siqueira</b></p>
@@ -22,7 +27,7 @@
 
 ### O que é
 
-O **Envy Converter** é um programa simples para Windows, com interface moderna em tema escuro, que converte:
+O **Envy Converter** é um programa simples, com interface moderna em tema escuro, que funciona no **Windows** (`.exe`) e no **Android** — tablet e celular (`.apk`). Ele converte:
 
 - **PDF → DOCX** editável (texto, negrito, itálico, fontes, tamanhos, recuos, alinhamento e imagens)
 - **PDF → DOCX fiel** (cada página vira uma imagem: idêntico ao PDF, mas o texto não é editável)
@@ -30,9 +35,14 @@ O **Envy Converter** é um programa simples para Windows, com interface moderna 
 - **PDF → PNG ou JPG** (uma imagem por página, em 200 dpi)
 - **DOCX, DOC, RTF, ODT, TXT, HTML → PDF** (e entre si)
 
-É um único arquivo `.exe`: **não precisa instalar nada**, nem o .NET.
+| Sistema | Download | Observação |
+|---|---|---|
+| 🪟 Windows 10/11 | `EnvyConverter-win-x64.zip` | Um único `.exe`, **não precisa instalar nada**, nem o .NET. |
+| 📱 Android 8+ | `EnvyConverter-android.apk` | Tablet ou celular. Veja [Android](#-android-tablet-e-celular). |
 
-### Como baixar e usar
+Os dois ficam em **[Releases](../../releases/latest)**. No Android estão disponíveis PDF → DOCX, DOCX fiel, TXT, PNG e JPG.
+
+### Como baixar e usar (Windows)
 
 1. Vá em **[Releases](../../releases)** e baixe `EnvyConverter-win-x64.zip`.
 2. Extraia o zip numa pasta qualquer (ex.: `Documentos\EnvyConverter`).
@@ -49,7 +59,7 @@ O **Envy Converter** é um programa simples para Windows, com interface moderna 
 
 O Envy Converter também roda em **tablets e celulares Android 8 ou mais novo**, com o mesmo motor de conversão.
 
-1. Copie o arquivo **`EnvyConverter.apk`** para o tablet (WhatsApp, Drive, cabo USB…) e toque nele.
+1. Baixe **`EnvyConverter-android.apk`** em [Releases](../../releases/latest) e copie para o tablet (WhatsApp, Drive, cabo USB…) e toque nele.
 2. Se o Android pedir, permita **"Instalar apps desconhecidos"** para o app que você usou para abrir o APK (o app não vem da Play Store).
 3. Abra o **Envy Converter** e siga os 3 passos da tela:
    1. **Escolha os PDFs** (ou, em outro app, toque em *Compartilhar → Envy Converter*);
@@ -181,7 +191,7 @@ Bibliotecas: [PdfPig](https://github.com/UglyToad/PdfPig) (Apache-2.0) e [Open X
 
 ### What it is
 
-**Envy Converter** is a simple Windows app with a modern dark UI that converts:
+**Envy Converter** is a simple app with a modern dark UI that runs on **Windows** (`.exe`) and **Android** tablets and phones (`.apk`). It converts:
 
 - **PDF → editable DOCX** (text, bold, italic, fonts, sizes, indentation, alignment and images)
 - **PDF → faithful DOCX** (each page becomes an image: looks exactly like the PDF, but text is not editable)
@@ -189,9 +199,14 @@ Bibliotecas: [PdfPig](https://github.com/UglyToad/PdfPig) (Apache-2.0) e [Open X
 - **PDF → PNG or JPG** (one image per page, 200 dpi)
 - **DOCX, DOC, RTF, ODT, TXT, HTML → PDF** (and between each other)
 
-It ships as a single `.exe`: **nothing to install**, not even .NET.
+| System | Download | Notes |
+|---|---|---|
+| 🪟 Windows 10/11 | `EnvyConverter-win-x64.zip` | A single `.exe`, **nothing to install**, not even .NET. |
+| 📱 Android 8+ | `EnvyConverter-android.apk` | Tablet or phone. See [Android](#-android-tablet-and-phone). |
 
-### Download and use
+Both are on **[Releases](../../releases/latest)**. Android offers PDF → DOCX, faithful DOCX, TXT, PNG and JPG.
+
+### Download and use (Windows)
 
 1. Go to **[Releases](../../releases)** and download `EnvyConverter-win-x64.zip`.
 2. Extract it anywhere.
@@ -208,7 +223,7 @@ It ships as a single `.exe`: **nothing to install**, not even .NET.
 
 Envy Converter also runs on **Android 8+ tablets and phones**, with the same conversion engine.
 
-1. Copy **`EnvyConverter.apk`** to the tablet and tap it.
+1. Download **`EnvyConverter-android.apk`** from [Releases](../../releases/latest), copy it to the tablet and tap it.
 2. If asked, allow **"Install unknown apps"** for the app you used to open the APK (it is not from the Play Store).
 3. Open **Envy Converter** and follow the 3 on-screen steps: pick PDFs (or *Share → Envy Converter* from another app), pick a format (DOCX, faithful DOCX, TXT, PNG, JPG), tap **Converter**.
 4. Files are saved to **Downloads/EnvyConverter**; use **Abrir** (*Open*) or **Compartilhar** (*Share*).
