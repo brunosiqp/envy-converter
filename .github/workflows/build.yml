@@ -3,7 +3,6 @@ name: build
 on:
   push:
     branches: [main]
-    tags: ["v*"]
   pull_request:
   workflow_dispatch:
 
@@ -44,9 +43,64 @@ jobs:
           name: EnvyConverter-win-x64
           path: EnvyConverter-win-x64.zip
 
+      # Cria a Release da versão do projeto (ex.: v1.1.0) se ela ainda não existir.
       - name: Publicar release
-        if: startsWith(github.ref, 'refs/tags/v')
-        uses: softprops/action-gh-release@v2
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          [xml]$proj = Get-Content src/EnvyConverter/EnvyConverter.csproj
+          $version = "v" + ($proj.Project.PropertyGroup | Where-Object { $_.Version } | Select-Object -First 1).Version
+          gh release view $version *> $null
+          if ($LASTEXITCODE -eq 0) { Write-Host "Release $version já existe."; exit 0 }
+          gh release create $version EnvyConverter-win-x64.zip --target $env:GITHUB_SHA --title "Envy Converter $version" --notes-file .github/release-notes.md
+
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
         with:
-          files: EnvyConverter-win-x64.zip
-          generate_release_notes: true
+          distribution: temurin
+          java-version: 17
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Instalar workload Android
+        run: dotnet workload install maui-android
+
+      - name: Instalar dependências do SDK Android
+        run: >
+          dotnet build src/EnvyConverter.Mobile/EnvyConverter.Mobile.csproj -t:InstallAndroidDependencies
+          -p:AndroidSdkDirectory=$ANDROID_HOME -p:JavaSdkDirectory=$JAVA_HOME -p:AcceptAndroidSDKLicenses=True
+
+      - name: Gerar APK
+        run: >
+          dotnet publish src/EnvyConverter.Mobile/EnvyConverter.Mobile.csproj -c Release -o apk-out
+          -p:AndroidSdkDirectory=$ANDROID_HOME -p:JavaSdkDirectory=$JAVA_HOME
+
+      - name: Separar APK
+        run: |
+          ls -la apk-out
+          cp "$(ls apk-out/*-Signed.apk | head -1)" EnvyConverter.apk
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: EnvyConverter-android
+          path: EnvyConverter.apk
+
+      # Guarda o APK mais recente num branch separado, fora do histórico do código.
+      - name: Atualizar branch apk-build
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          mkdir dist && cp EnvyConverter.apk dist/ && cd dist
+          git init -q -b apk-build
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add EnvyConverter.apk
+          git commit -q -m "APK de ${GITHUB_SHA::7}"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${GITHUB_REPOSITORY}.git" apk-build
