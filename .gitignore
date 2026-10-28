@@ -1,0 +1,16 @@
+bin/
+obj/
+publish/
+*.user
+.vs/
+.vscode/
+*.swp
+
+# Arquivos de teste ficam só na máquina local, nunca no repositório.
+amostras/
+samples/
+*.pdf
+*.docx
+*.doc
+*.odt
+*.rtf

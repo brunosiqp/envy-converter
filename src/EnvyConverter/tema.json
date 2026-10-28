@@ -1,0 +1,15 @@
+{
+  "_comentario": "Cores do Envy Converter. Edite os valores hexadecimais e reabra o programa. Apague este arquivo para voltar ao padrão.",
+  "Fundo": "#0E1120",
+  "Superficie": "#161A2E",
+  "SuperficieAlta": "#1F2440",
+  "Borda": "#2C3256",
+  "Texto": "#EEF0FF",
+  "TextoSuave": "#9AA1C9",
+  "Destaque": "#7C5CFF",
+  "Destaque2": "#22D3EE",
+  "Sucesso": "#34D399",
+  "Erro": "#F87171",
+  "Aviso": "#FBBF24",
+  "NomeApp": "Envy Converter"
+}
