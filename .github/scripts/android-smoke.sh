@@ -16,6 +16,12 @@ tap_text() {
   adb shell input tap $(( (x1 + x2) / 2 )) $(( (y1 + y2) / 2 ))
 }
 
+# Alertas "app não está respondendo" do emulador lento atrapalham os toques.
+dismiss() {
+  for t in Wait Aguardar "Close app"; do tap_text "$t" 2>/dev/null && sleep 2 || true; done
+}
+
+adb shell settings put global hide_error_dialogs 1 || true
 adb install -r EnvyConverter.apk
 adb push amostra.pdf /data/local/tmp/amostra.pdf
 adb shell chmod 644 /data/local/tmp/amostra.pdf
@@ -27,8 +33,10 @@ shot 1-abertura
 
 adb shell pidof "$PKG" >/dev/null || { echo "::error::O app fechou ao abrir"; adb logcat -d | grep -iE "fatal|exception|crash" | tail -40; exit 1; }
 
+dismiss
 if tap_text "Converter"; then
   sleep 30
+  dismiss
   shot 2-convertido
   adb shell ls -la /sdcard/Download/EnvyConverter/ | tee "$OUT/downloads.txt" || true
   if adb shell ls /sdcard/Download/EnvyConverter/ | grep -q "amostra.docx"; then
