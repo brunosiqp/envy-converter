@@ -98,14 +98,32 @@ jobs:
           name: EnvyConverter-android
           path: EnvyConverter.apk
 
-      # Guarda o APK mais recente num branch separado, fora do histórico do código.
-      - name: Atualizar branch apk-build
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      - name: Gerar PDF de exemplo
+        run: pip install fpdf2 && python .github/scripts/amostra_pdf.py amostra.pdf
+
+      - name: Liberar KVM para o emulador
         run: |
-          mkdir dist && cp EnvyConverter.apk dist/ && cd dist
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules && sudo udevadm trigger --name-match=kvm
+
+      - name: Testar no emulador (tablet)
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          arch: x86_64
+          target: google_apis
+          profile: pixel_tablet
+          disable-animations: true
+          script: bash .github/scripts/android-smoke.sh
+
+      # Guarda o APK mais recente (e as capturas do teste) num branch separado, fora do histórico do código.
+      - name: Atualizar branch apk-build
+        if: always() && github.event_name == 'push' && github.ref == 'refs/heads/main' && hashFiles('EnvyConverter.apk') != ''
+        run: |
+          mkdir -p dist && cp EnvyConverter.apk dist/ && cd dist
           git init -q -b apk-build
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add EnvyConverter.apk
+          git add -A
           git commit -q -m "APK de ${GITHUB_SHA::7}"
           git push -f "https://x-access-token:${{ github.token }}@github.com/${GITHUB_REPOSITORY}.git" apk-build
