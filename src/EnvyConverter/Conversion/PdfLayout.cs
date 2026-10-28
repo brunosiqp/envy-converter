@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using UglyToad.PdfPig.Content;
 using PigDocument = UglyToad.PdfPig.PdfDocument;
+using PdfPage = UglyToad.PdfPig.Content.Page;
 
 namespace EnvyConverter.Conversion;
 
@@ -80,7 +81,7 @@ public static class PdfLayoutReader
         var layout = new DocumentLayout();
         using var pdf = PigDocument.Open(pdfPath);
 
-        var pages = new List<(Page Page, List<Line> Lines)>();
+        var pages = new List<(PdfPage Page, List<Line> Lines)>();
         foreach (var page in pdf.GetPages())
             pages.Add((page, BuildLines(page)));
 
@@ -125,7 +126,7 @@ public static class PdfLayoutReader
         return layout;
     }
 
-    private static List<Line> BuildLines(Page page)
+    private static List<Line> BuildLines(PdfPage page)
     {
         var words = page.GetWords()
             .Where(w => !string.IsNullOrWhiteSpace(w.Text) && w.Letters.Count > 0)
@@ -254,7 +255,7 @@ public static class PdfLayoutReader
         }
     }
 
-    private static IEnumerable<ImageBlock> ReadImages(Page page, double textLeft)
+    private static IEnumerable<ImageBlock> ReadImages(PdfPage page, double textLeft)
     {
         var images = new List<ImageBlock>();
         IEnumerable<IPdfImage> pdfImages;
