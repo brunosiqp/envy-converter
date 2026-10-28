@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0-android</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <UseMaui>true</UseMaui>
+    <SingleProject>true</SingleProject>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>EnvyConverter.Mobile</RootNamespace>
+
+    <ApplicationTitle>Envy Converter</ApplicationTitle>
+    <ApplicationId>com.brunosiqueira.envyconverter</ApplicationId>
+    <ApplicationDisplayVersion>1.1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>2</ApplicationVersion>
+    <Authors>Bruno Siqueira</Authors>
+    <Company>Bruno Siqueira</Company>
+    <Copyright>Desenvolvido por Bruno Siqueira</Copyright>
+
+    <SupportedOSPlatformVersion>26.0</SupportedOSPlatformVersion>
+    <AndroidPackageFormat>apk</AndroidPackageFormat>
+    <RuntimeIdentifiers>android-arm64;android-arm;android-x64</RuntimeIdentifiers>
+    <!-- Mantém as bibliotecas de PDF/Word inteiras (usam reflexão). -->
+    <TrimMode>partial</TrimMode>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#7C5CFF" />
+    <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#0E1120" BaseSize="128,128" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+    <PackageReference Include="DocumentFormat.OpenXml" Version="3.1.1" />
+    <PackageReference Include="PdfPig" Version="0.1.9" />
+    <TrimmerRootAssembly Include="DocumentFormat.OpenXml" />
+    <TrimmerRootAssembly Include="DocumentFormat.OpenXml.Framework" />
+    <TrimmerRootAssembly Include="UglyToad.PdfPig" />
+  </ItemGroup>
+
+  <!-- Mesmo motor de conversão da versão Windows. -->
+  <ItemGroup>
+    <Compile Include="..\EnvyConverter\Conversion\OutputFormat.cs" Link="Conversion\OutputFormat.cs" />
+    <Compile Include="..\EnvyConverter\Conversion\PdfLayout.cs" Link="Conversion\PdfLayout.cs" />
+    <Compile Include="..\EnvyConverter\Conversion\DocxWriter.cs" Link="Conversion\DocxWriter.cs" />
+    <Compile Include="..\EnvyConverter\Conversion\OutputValidator.cs" Link="Conversion\OutputValidator.cs" />
+  </ItemGroup>
+
+</Project>

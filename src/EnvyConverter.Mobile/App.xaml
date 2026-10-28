@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EnvyConverter.Mobile.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <Color x:Key="Bg">#0E1120</Color>
+            <Color x:Key="Surface">#161A2E</Color>
+            <Color x:Key="SurfaceHigh">#1F2440</Color>
+            <Color x:Key="Line">#2C3256</Color>
+            <Color x:Key="Text">#EEF0FF</Color>
+            <Color x:Key="Muted">#9AA1C9</Color>
+            <Color x:Key="Accent">#7C5CFF</Color>
+            <Color x:Key="Accent2">#22D3EE</Color>
+            <Color x:Key="Success">#34D399</Color>
+            <Color x:Key="Error">#F87171</Color>
+
+            <LinearGradientBrush x:Key="AccentGradient" StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#7C5CFF" Offset="0" />
+                <GradientStop Color="#22D3EE" Offset="1" />
+            </LinearGradientBrush>
+
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource Text}" />
+            </Style>
+            <Style x:Key="Muted" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource Muted}" />
+                <Setter Property="FontSize" Value="13" />
+            </Style>
+            <Style x:Key="Section" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource Muted}" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="CharacterSpacing" Value="1" />
+            </Style>
+            <Style x:Key="Card" TargetType="Border">
+                <Setter Property="BackgroundColor" Value="{StaticResource Surface}" />
+                <Setter Property="Stroke" Value="{StaticResource Line}" />
+                <Setter Property="StrokeThickness" Value="1" />
+                <Setter Property="StrokeShape" Value="RoundRectangle 16" />
+                <Setter Property="Padding" Value="18" />
+            </Style>
+            <Style x:Key="Ghost" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource SurfaceHigh}" />
+                <Setter Property="TextColor" Value="{StaticResource Text}" />
+                <Setter Property="BorderColor" Value="{StaticResource Line}" />
+                <Setter Property="BorderWidth" Value="1" />
+                <Setter Property="CornerRadius" Value="10" />
+                <Setter Property="FontSize" Value="13" />
+                <Setter Property="Padding" Value="14,6" />
+                <Setter Property="MinimumHeightRequest" Value="40" />
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

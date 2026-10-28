@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:EnvyConverter.Mobile"
+             x:Class="EnvyConverter.Mobile.MainPage"
+             BackgroundColor="{StaticResource Bg}"
+             Shell.NavBarIsVisible="False">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+
+        <!-- Cabeçalho -->
+        <Grid Grid.Row="0" BackgroundColor="{StaticResource Surface}" Padding="20,14">
+            <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                <Image Source="logo.png" WidthRequest="28" HeightRequest="28" />
+                <Label Text="Envy Converter" FontSize="18" FontAttributes="Bold" VerticalOptions="Center" />
+                <Border BackgroundColor="{StaticResource SurfaceHigh}" StrokeThickness="0" StrokeShape="RoundRectangle 6"
+                        Padding="8,2" VerticalOptions="Center">
+                    <Label Text="PDF → DOCX e mais" FontSize="11" TextColor="{StaticResource Muted}" />
+                </Border>
+            </HorizontalStackLayout>
+        </Grid>
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20,22" Spacing="18" MaximumWidthRequest="920">
+
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Converta sem perder nada" FontSize="26" FontAttributes="Bold" />
+                    <Label Style="{StaticResource Muted}" FontSize="14"
+                           Text="O original nunca é alterado. Cada arquivo gerado é aberto e conferido antes de ser salvo." />
+                </VerticalStackLayout>
+
+                <!-- Escolher arquivos -->
+                <Border x:Name="PickArea" BackgroundColor="{StaticResource Surface}" Stroke="{StaticResource Line}"
+                        StrokeThickness="2" StrokeDashArray="5,4" StrokeShape="RoundRectangle 16" Padding="20,26">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnPickFiles" />
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                        <Border WidthRequest="58" HeightRequest="58" StrokeThickness="0" StrokeShape="RoundRectangle 16"
+                                Background="{StaticResource AccentGradient}" HorizontalOptions="Center">
+                            <Label Text="+" FontSize="32" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" />
+                        </Border>
+                        <Label Text="Toque para escolher os PDFs" FontSize="17" FontAttributes="Bold" HorizontalOptions="Center" />
+                        <Label Style="{StaticResource Muted}" HorizontalOptions="Center" HorizontalTextAlignment="Center"
+                               Text="Também dá para compartilhar um PDF de outro app com o Envy Converter" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Formato -->
+                <Border Style="{StaticResource Card}">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="CONVERTER PARA" Style="{StaticResource Section}" />
+                        <FlexLayout x:Name="FormatChips" Wrap="Wrap" JustifyContent="Start" />
+                        <Label x:Name="FormatHint" Style="{StaticResource Muted}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Arquivos -->
+                <Border Style="{StaticResource Card}" Padding="10">
+                    <VerticalStackLayout Spacing="6">
+                        <Grid ColumnDefinitions="*,Auto" Padding="8,4">
+                            <Label x:Name="FilesHeader" Text="ARQUIVOS" Style="{StaticResource Section}" VerticalOptions="Center" />
+                            <Button x:Name="ClearButton" Grid.Column="1" Text="Limpar lista" Style="{StaticResource Ghost}" Clicked="OnClear" />
+                        </Grid>
+                        <Label x:Name="EmptyHint" Text="Nenhum arquivo ainda." Style="{StaticResource Muted}"
+                               HorizontalOptions="Center" Margin="0,18" />
+                        <VerticalStackLayout x:Name="FileList" Spacing="6" BindableLayout.ItemsSource="{Binding Files}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="local:FileItem">
+                                    <Border BackgroundColor="{StaticResource SurfaceHigh}" StrokeThickness="0"
+                                            StrokeShape="RoundRectangle 12" Padding="14,12">
+                                        <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto" ColumnSpacing="12" RowSpacing="10">
+                                            <Border BackgroundColor="{StaticResource Bg}" StrokeThickness="0" StrokeShape="RoundRectangle 8"
+                                                    WidthRequest="48" HeightRequest="34" VerticalOptions="Center">
+                                                <Label Text="PDF" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Accent2}"
+                                                       HorizontalOptions="Center" VerticalOptions="Center" />
+                                            </Border>
+                                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                                <Label Text="{Binding Name}" FontSize="14" FontAttributes="Bold" LineBreakMode="TailTruncation" />
+                                                <Label Text="{Binding Detail}" Style="{StaticResource Muted}" FontSize="12" />
+                                            </VerticalStackLayout>
+                                            <Border Grid.Column="2" StrokeThickness="0" StrokeShape="RoundRectangle 8" Padding="10,4"
+                                                    BackgroundColor="{Binding StatusColor}" VerticalOptions="Center">
+                                                <Label Text="{Binding StatusText}" FontSize="12" FontAttributes="Bold" TextColor="#0E1120" />
+                                            </Border>
+                                            <HorizontalStackLayout Grid.Row="1" Grid.ColumnSpan="3" Spacing="8" HorizontalOptions="End"
+                                                                   IsVisible="{Binding IsDone}">
+                                                <Button Text="Abrir" Style="{StaticResource Ghost}" Clicked="OnOpen" CommandParameter="{Binding .}" />
+                                                <Button Text="Compartilhar" Style="{StaticResource Ghost}" Clicked="OnShare" CommandParameter="{Binding .}" />
+                                            </HorizontalStackLayout>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Label x:Name="ProgressText" Text="Pronto." Style="{StaticResource Muted}" />
+                <ProgressBar x:Name="Progress" Progress="0" ProgressColor="{StaticResource Accent2}" />
+                <Button x:Name="ConvertButton" Text="Converter" FontSize="17" FontAttributes="Bold" TextColor="White"
+                        HeightRequest="56" CornerRadius="14" Background="{StaticResource AccentGradient}" Clicked="OnConvert" />
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Rodapé -->
+        <HorizontalStackLayout Grid.Row="2" HorizontalOptions="Center" Padding="0,10,0,14" Spacing="4">
+            <Label Text="Desenvolvido por" Style="{StaticResource Muted}" FontSize="12" />
+            <Label Text="Bruno Siqueira" FontSize="12" FontAttributes="Bold" />
+        </HorizontalStackLayout>
+    </Grid>
+</ContentPage>
