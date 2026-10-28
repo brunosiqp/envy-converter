@@ -12,8 +12,8 @@
 
     <ApplicationTitle>Envy Converter</ApplicationTitle>
     <ApplicationId>com.brunosiqueira.envyconverter</ApplicationId>
-    <ApplicationDisplayVersion>1.1.0</ApplicationDisplayVersion>
-    <ApplicationVersion>2</ApplicationVersion>
+    <ApplicationDisplayVersion>1.2.0</ApplicationDisplayVersion>
+    <ApplicationVersion>3</ApplicationVersion>
     <Authors>Bruno Siqueira</Authors>
     <Company>Bruno Siqueira</Company>
     <Copyright>Desenvolvido por Bruno Siqueira</Copyright>

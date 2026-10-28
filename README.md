@@ -45,6 +45,24 @@ O **Envy Converter** é um programa simples para Windows, com interface moderna 
 
 > Dica: você também pode arrastar arquivos em cima do `EnvyConverter.exe` ou usar "Abrir com → EnvyConverter".
 
+### 📱 Android (tablet e celular)
+
+O Envy Converter também roda em **tablets e celulares Android 8 ou mais novo**, com o mesmo motor de conversão.
+
+1. Copie o arquivo **`EnvyConverter.apk`** para o tablet (WhatsApp, Drive, cabo USB…) e toque nele.
+2. Se o Android pedir, permita **"Instalar apps desconhecidos"** para o app que você usou para abrir o APK (o app não vem da Play Store).
+3. Abra o **Envy Converter** e siga os 3 passos da tela:
+   1. **Escolha os PDFs** (ou, em outro app, toque em *Compartilhar → Envy Converter*);
+   2. **Escolha o formato**: DOCX, DOCX fiel, TXT, PNG ou JPG;
+   3. Toque em **Converter**.
+4. Os arquivos ficam em **Downloads/EnvyConverter**. Use **Abrir** ou **Compartilhar** ao lado de cada arquivo.
+
+A tela se adapta sozinha: **deitado** mostra duas colunas (arquivos à esquerda, formato e botão à direita); **em pé** mostra tudo em uma coluna, com o botão Converter sempre fixo embaixo. Não pede nenhuma permissão especial.
+
+Para abrir o DOCX no tablet é preciso um app de documentos (Microsoft Word, Google Docs, WPS Office…).
+
+Compilar: `dotnet workload install maui-android` e depois `dotnet publish src/EnvyConverter.Mobile -c Release`. O CI compila o APK e testa num emulador de tablet (deitado e em pé), convertendo um PDF de exemplo de verdade.
+
 ### Formatos
 
 | Saída | A partir de | Motores |
@@ -131,6 +149,8 @@ src/EnvyConverter/
   Ui/Theme.xaml            estilos e cores padrão
   Ui/ThemeLoader.cs        leitura do tema.json
   Ui/NativeTitleBar.cs     barra de título nativa do Windows no tema escuro
+  Assets/autor.png         foto do autor no rodapé
+src/EnvyConverter.Mobile/  app Android (.NET MAUI), usa o mesmo motor de Conversion/
   Conversion/
     ConversionService.cs   cópia segura, validação, fallback entre motores
     WordEngine.cs          Microsoft Word (automação COM)
@@ -183,6 +203,19 @@ It ships as a single `.exe`: **nothing to install**, not even .NET.
 7. Click **Converter**. When done, click **Abrir** (*Open*) next to the file.
 
 > Tip: you can also drop files on `EnvyConverter.exe` or use "Open with → EnvyConverter".
+
+### 📱 Android (tablet and phone)
+
+Envy Converter also runs on **Android 8+ tablets and phones**, with the same conversion engine.
+
+1. Copy **`EnvyConverter.apk`** to the tablet and tap it.
+2. If asked, allow **"Install unknown apps"** for the app you used to open the APK (it is not from the Play Store).
+3. Open **Envy Converter** and follow the 3 on-screen steps: pick PDFs (or *Share → Envy Converter* from another app), pick a format (DOCX, faithful DOCX, TXT, PNG, JPG), tap **Converter**.
+4. Files are saved to **Downloads/EnvyConverter**; use **Abrir** (*Open*) or **Compartilhar** (*Share*).
+
+The layout adapts: **landscape** shows two columns, **portrait** a single column with the Convert button pinned at the bottom. No special permissions are requested.
+
+Build: `dotnet workload install maui-android`, then `dotnet publish src/EnvyConverter.Mobile -c Release`. CI builds the APK and tests it on a tablet emulator (landscape and portrait) with a real conversion.
 
 ### Formats
 

@@ -14,3 +14,7 @@ samples/
 *.doc
 *.odt
 *.rtf
+
+# Chaves de assinatura do Android nunca vão para o repositório.
+*.jks
+*.keystore
