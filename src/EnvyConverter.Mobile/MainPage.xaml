@@ -6,113 +6,153 @@
              BackgroundColor="{StaticResource Bg}"
              Shell.NavBarIsVisible="False">
 
-    <Grid RowDefinitions="Auto,*,Auto,Auto">
+    <ContentPage.Resources>
+        <!-- Círculo com o número do passo -->
+        <Style x:Key="StepNumber" TargetType="Border">
+            <Setter Property="WidthRequest" Value="30" />
+            <Setter Property="HeightRequest" Value="30" />
+            <Setter Property="StrokeThickness" Value="0" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 15" />
+            <Setter Property="Background" Value="{StaticResource AccentGradient}" />
+            <Setter Property="VerticalOptions" Value="Center" />
+        </Style>
+        <Style x:Key="StepTitle" TargetType="Label">
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="VerticalOptions" Value="Center" />
+        </Style>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,*">
 
         <!-- Cabeçalho -->
-        <Grid Grid.Row="0" BackgroundColor="{StaticResource Surface}" Padding="20,14">
+        <Grid Grid.Row="0" BackgroundColor="{StaticResource Surface}" Padding="20,12" ColumnDefinitions="*,Auto">
             <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
-                <Image Source="logo.png" WidthRequest="28" HeightRequest="28" />
-                <Label Text="Envy Converter" FontSize="18" FontAttributes="Bold" VerticalOptions="Center" />
-                <Border BackgroundColor="{StaticResource SurfaceHigh}" StrokeThickness="0" StrokeShape="RoundRectangle 6"
-                        Padding="8,2" VerticalOptions="Center">
-                    <Label Text="PDF → DOCX e mais" FontSize="11" TextColor="{StaticResource Muted}" />
-                </Border>
+                <Image Source="logo.png" WidthRequest="30" HeightRequest="30" />
+                <Label Text="Envy Converter" FontSize="19" FontAttributes="Bold" VerticalOptions="Center" />
             </HorizontalStackLayout>
+            <Border Grid.Column="1" BackgroundColor="{StaticResource SurfaceHigh}" StrokeThickness="0"
+                    StrokeShape="RoundRectangle 8" Padding="10,4" VerticalOptions="Center">
+                <Label Text="PDF → Word" FontSize="12" TextColor="{StaticResource Lime}" FontAttributes="Bold" />
+            </Border>
         </Grid>
 
-        <ScrollView Grid.Row="1">
-            <VerticalStackLayout Padding="20,22" Spacing="18" MaximumWidthRequest="920">
+        <!-- Corpo: em paisagem vira duas colunas (código em MainPage.xaml.cs) -->
+        <Grid x:Name="Body" Grid.Row="1">
 
-                <VerticalStackLayout Spacing="4">
-                    <Label Text="Converta sem perder nada" FontSize="26" FontAttributes="Bold" />
-                    <Label Style="{StaticResource MutedLabel}" FontSize="14"
-                           Text="O original nunca é alterado. Cada arquivo gerado é aberto e conferido antes de ser salvo." />
-                </VerticalStackLayout>
+            <ScrollView x:Name="MainScroll">
+                <VerticalStackLayout x:Name="MainStack" Padding="20,20,20,24" Spacing="18">
 
-                <!-- Escolher arquivos -->
-                <Border x:Name="PickArea" BackgroundColor="{StaticResource Surface}" Stroke="{StaticResource Line}"
-                        StrokeThickness="2" StrokeDashArray="5,4" StrokeShape="RoundRectangle 16" Padding="20,26">
-                    <Border.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OnPickFiles" />
-                    </Border.GestureRecognizers>
-                    <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
-                        <Border WidthRequest="58" HeightRequest="58" StrokeThickness="0" StrokeShape="RoundRectangle 16"
-                                Background="{StaticResource AccentGradient}" HorizontalOptions="Center">
-                            <Label Text="+" FontSize="32" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" />
-                        </Border>
-                        <Label Text="Toque para escolher os PDFs" FontSize="17" FontAttributes="Bold" HorizontalOptions="Center" />
-                        <Label Style="{StaticResource MutedLabel}" HorizontalOptions="Center" HorizontalTextAlignment="Center"
-                               Text="Também dá para compartilhar um PDF de outro app com o Envy Converter" />
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Converta seus PDFs em 3 passos" FontSize="24" FontAttributes="Bold" />
+                        <Label Style="{StaticResource MutedLabel}" FontSize="14"
+                               Text="O arquivo original nunca é alterado. Tudo é conferido antes de salvar." />
                     </VerticalStackLayout>
-                </Border>
 
-                <!-- Formato -->
-                <Border Style="{StaticResource Card}">
-                    <VerticalStackLayout Spacing="10">
-                        <Label Text="CONVERTER PARA" Style="{StaticResource Section}" />
-                        <FlexLayout x:Name="FormatChips" Wrap="Wrap" JustifyContent="Start" />
-                        <Label x:Name="FormatHint" Style="{StaticResource MutedLabel}" />
-                    </VerticalStackLayout>
-                </Border>
+                    <!-- Passo 1 -->
+                    <Border x:Name="StepFiles" Style="{StaticResource Card}">
+                        <VerticalStackLayout Spacing="14">
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                                <Border Style="{StaticResource StepNumber}">
+                                    <Label Text="1" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" />
+                                </Border>
+                                <Label Grid.Column="1" x:Name="FilesHeader" Text="Escolha os PDFs" Style="{StaticResource StepTitle}" />
+                                <Button Grid.Column="2" x:Name="ClearButton" Text="Limpar" Style="{StaticResource Ghost}" Clicked="OnClear" />
+                            </Grid>
 
-                <!-- Arquivos -->
-                <Border Style="{StaticResource Card}" Padding="10">
-                    <VerticalStackLayout Spacing="6">
-                        <Grid ColumnDefinitions="*,Auto" Padding="8,4">
-                            <Label x:Name="FilesHeader" Text="ARQUIVOS" Style="{StaticResource Section}" VerticalOptions="Center" />
-                            <Button x:Name="ClearButton" Grid.Column="1" Text="Limpar lista" Style="{StaticResource Ghost}" Clicked="OnClear" />
-                        </Grid>
-                        <Label x:Name="EmptyHint" Text="Nenhum arquivo ainda." Style="{StaticResource MutedLabel}"
-                               HorizontalOptions="Center" Margin="0,18" />
-                        <VerticalStackLayout x:Name="FileList" Spacing="6" BindableLayout.ItemsSource="{Binding Files}">
-                            <BindableLayout.ItemTemplate>
-                                <DataTemplate x:DataType="local:FileItem">
-                                    <Border BackgroundColor="{StaticResource SurfaceHigh}" StrokeThickness="0"
-                                            StrokeShape="RoundRectangle 12" Padding="14,12">
-                                        <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto" ColumnSpacing="12" RowSpacing="10">
-                                            <Border BackgroundColor="{StaticResource Bg}" StrokeThickness="0" StrokeShape="RoundRectangle 8"
-                                                    WidthRequest="48" HeightRequest="34" VerticalOptions="Center">
-                                                <Label Text="PDF" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Accent2}"
-                                                       HorizontalOptions="Center" VerticalOptions="Center" />
-                                            </Border>
-                                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
-                                                <Label Text="{Binding Name}" FontSize="14" FontAttributes="Bold" LineBreakMode="TailTruncation" />
-                                                <Label Text="{Binding Detail}" Style="{StaticResource MutedLabel}" FontSize="12" />
-                                            </VerticalStackLayout>
-                                            <Border Grid.Column="2" StrokeThickness="0" StrokeShape="RoundRectangle 8" Padding="10,4"
-                                                    BackgroundColor="{Binding StatusColor}" VerticalOptions="Center">
-                                                <Label Text="{Binding StatusText}" FontSize="12" FontAttributes="Bold" TextColor="#0E1120" />
-                                            </Border>
-                                            <HorizontalStackLayout Grid.Row="1" Grid.ColumnSpan="3" Spacing="8" HorizontalOptions="End"
-                                                                   IsVisible="{Binding IsDone}">
-                                                <Button Text="Abrir" Style="{StaticResource Ghost}" Clicked="OnOpen" CommandParameter="{Binding .}" />
-                                                <Button Text="Compartilhar" Style="{StaticResource Ghost}" Clicked="OnShare" CommandParameter="{Binding .}" />
-                                            </HorizontalStackLayout>
-                                        </Grid>
+                            <Border x:Name="PickArea" BackgroundColor="{StaticResource Bg}" Stroke="{StaticResource Line}"
+                                    StrokeThickness="2" StrokeDashArray="5,4" StrokeShape="RoundRectangle 14" Padding="16,22">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnPickFiles" />
+                                </Border.GestureRecognizers>
+                                <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
+                                    <Border WidthRequest="56" HeightRequest="56" StrokeThickness="0" StrokeShape="RoundRectangle 16"
+                                            Background="{StaticResource AccentGradient}" HorizontalOptions="Center">
+                                        <Label Text="+" FontSize="32" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" />
                                     </Border>
-                                </DataTemplate>
-                            </BindableLayout.ItemTemplate>
+                                    <Label x:Name="PickTitle" Text="Toque aqui para escolher" FontSize="17" FontAttributes="Bold" HorizontalOptions="Center" />
+                                    <Label Style="{StaticResource MutedLabel}" HorizontalOptions="Center" HorizontalTextAlignment="Center"
+                                           Text="Ou, em outro app, toque em Compartilhar → Envy Converter" />
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <VerticalStackLayout x:Name="FileList" Spacing="8" BindableLayout.ItemsSource="{Binding Files}">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate x:DataType="local:FileItem">
+                                        <Border BackgroundColor="{StaticResource SurfaceHigh}" StrokeThickness="0"
+                                                StrokeShape="RoundRectangle 12" Padding="14,12">
+                                            <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto" ColumnSpacing="12" RowSpacing="10">
+                                                <Border BackgroundColor="{StaticResource Bg}" StrokeThickness="0" StrokeShape="RoundRectangle 8"
+                                                        WidthRequest="48" HeightRequest="34" VerticalOptions="Center">
+                                                    <Label Text="PDF" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Lime}"
+                                                           HorizontalOptions="Center" VerticalOptions="Center" />
+                                                </Border>
+                                                <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                                    <Label Text="{Binding Name}" FontSize="15" FontAttributes="Bold" LineBreakMode="TailTruncation" />
+                                                    <Label Text="{Binding Detail}" Style="{StaticResource MutedLabel}" FontSize="12" />
+                                                </VerticalStackLayout>
+                                                <Border Grid.Column="2" StrokeThickness="0" StrokeShape="RoundRectangle 8" Padding="10,4"
+                                                        BackgroundColor="{Binding StatusColor}" VerticalOptions="Center">
+                                                    <Label Text="{Binding StatusText}" FontSize="12" FontAttributes="Bold" TextColor="#0B0F14" />
+                                                </Border>
+                                                <HorizontalStackLayout Grid.Row="1" Grid.ColumnSpan="3" Spacing="8" HorizontalOptions="End"
+                                                                       IsVisible="{Binding IsDone}">
+                                                    <Button Text="Abrir" Style="{StaticResource Ghost}" Clicked="OnOpen" CommandParameter="{Binding .}" />
+                                                    <Button Text="Compartilhar" Style="{StaticResource Ghost}" Clicked="OnShare" CommandParameter="{Binding .}" />
+                                                </HorizontalStackLayout>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </VerticalStackLayout>
                         </VerticalStackLayout>
-                    </VerticalStackLayout>
-                </Border>
+                    </Border>
 
-            </VerticalStackLayout>
-        </ScrollView>
+                    <!-- Passo 2 (vai para a coluna da direita em paisagem) -->
+                    <Border x:Name="StepFormat" Style="{StaticResource Card}">
+                        <VerticalStackLayout Spacing="14">
+                            <HorizontalStackLayout Spacing="12">
+                                <Border Style="{StaticResource StepNumber}">
+                                    <Label Text="2" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" />
+                                </Border>
+                                <Label Text="Escolha o formato" Style="{StaticResource StepTitle}" />
+                            </HorizontalStackLayout>
+                            <FlexLayout x:Name="FormatChips" Wrap="Wrap" JustifyContent="Start" />
+                            <Label x:Name="FormatHint" Style="{StaticResource MutedLabel}" />
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+            </ScrollView>
 
-        <!-- Barra de ação fixa: sempre visível, sem precisar rolar -->
-        <Grid Grid.Row="2" BackgroundColor="{StaticResource Surface}" Padding="20,12">
-            <VerticalStackLayout Spacing="8" MaximumWidthRequest="920">
-                <Label x:Name="ProgressText" Text="Pronto." Style="{StaticResource MutedLabel}" />
-                <ProgressBar x:Name="Progress" Progress="0" ProgressColor="{StaticResource Accent2}" />
-                <Button x:Name="ConvertButton" Text="Converter" FontSize="17" FontAttributes="Bold" TextColor="White"
-                        HeightRequest="56" CornerRadius="14" Background="{StaticResource AccentGradient}" Clicked="OnConvert" />
-            </VerticalStackLayout>
+            <!-- Coluna lateral (só em paisagem) -->
+            <ScrollView x:Name="SideScroll" IsVisible="False">
+                <VerticalStackLayout x:Name="SideStack" Padding="0,20,20,12" Spacing="18" />
+            </ScrollView>
+
+            <!-- Passo 3: barra de ação, sempre visível -->
+            <Border x:Name="ActionBar" BackgroundColor="{StaticResource Surface}" StrokeThickness="0" Padding="20,14,20,10">
+                <VerticalStackLayout Spacing="10">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                        <Border Style="{StaticResource StepNumber}">
+                            <Label Text="3" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" />
+                        </Border>
+                        <Label Grid.Column="1" x:Name="ProgressText" Text="Escolha os PDFs para começar." Style="{StaticResource MutedLabel}"
+                               FontSize="14" VerticalOptions="Center" />
+                    </Grid>
+                    <ProgressBar x:Name="Progress" Progress="0" ProgressColor="{StaticResource Accent}" />
+                    <Button x:Name="ConvertButton" Text="Converter" FontSize="18" FontAttributes="Bold" TextColor="White"
+                            HeightRequest="58" CornerRadius="14" Background="{StaticResource AccentGradient}" Clicked="OnConvert" />
+                    <!-- Crédito com foto do autor: troque Resources/Images/autor.png -->
+                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="8" Padding="0,4,0,0">
+                        <Border WidthRequest="26" HeightRequest="26" StrokeThickness="1" Stroke="{StaticResource Line}"
+                                StrokeShape="RoundRectangle 13" VerticalOptions="Center">
+                            <Image Source="autor.png" Aspect="AspectFill" />
+                        </Border>
+                        <Label Text="Desenvolvido por" Style="{StaticResource MutedLabel}" FontSize="12" VerticalOptions="Center" />
+                        <Label Text="Bruno Siqueira" FontSize="12" FontAttributes="Bold" VerticalOptions="Center" Margin="-4,0,0,0" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Border>
         </Grid>
-
-        <!-- Rodapé -->
-        <HorizontalStackLayout Grid.Row="3" HorizontalOptions="Center" Padding="0,8,0,10" Spacing="4" BackgroundColor="{StaticResource Surface}">
-            <Label Text="Desenvolvido por" Style="{StaticResource MutedLabel}" FontSize="12" />
-            <Label Text="Bruno Siqueira" FontSize="12" FontAttributes="Bold" />
-        </HorizontalStackLayout>
     </Grid>
 </ContentPage>

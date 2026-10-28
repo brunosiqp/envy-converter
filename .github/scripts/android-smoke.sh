@@ -18,7 +18,7 @@ tap_text() {
 
 # Alertas "app não está respondendo" do emulador lento atrapalham os toques.
 dismiss() {
-  for t in Wait Aguardar "Close app"; do tap_text "$t" 2>/dev/null && sleep 2 || true; done
+  for t in Wait Aguardar; do tap_text "$t" 2>/dev/null && sleep 2 || true; done
 }
 
 adb shell settings put global hide_error_dialogs 1 || true
@@ -49,4 +49,11 @@ if tap_text "Converter"; then
 else
   echo "::warning::Não foi possível tocar em Converter (o PDF de exemplo não chegou ao app?)."
 fi
+# Gira o tablet para retrato e registra o layout de uma coluna.
+adb shell settings put system accelerometer_rotation 0 || true
+adb shell settings put system user_rotation 1 || true
+sleep 8
+dismiss
+shot 3-retrato
+
 adb logcat -d | grep -iE "AndroidRuntime|FATAL|mono-rt" | tail -40 > "$OUT/logcat.txt" || true

@@ -57,9 +57,9 @@ public partial class MainPage : ContentPage
         {
             bool selected = key == format;
             var label = (Label)chip.Content!;
-            chip.Background = selected ? (Brush)Application.Current!.Resources["AccentGradient"] : new SolidColorBrush(Color.FromArgb("#1F2440"));
-            chip.Stroke = selected ? Colors.Transparent : Color.FromArgb("#2C3256");
-            label.TextColor = selected ? Colors.White : Color.FromArgb("#EEF0FF");
+            chip.Background = selected ? (Brush)Application.Current!.Resources["AccentGradient"] : new SolidColorBrush(Color.FromArgb("#212A34"));
+            chip.Stroke = selected ? Colors.Transparent : Color.FromArgb("#2C3740");
+            label.TextColor = selected ? Colors.White : Color.FromArgb("#E6EDF3");
             label.FontAttributes = selected ? FontAttributes.Bold : FontAttributes.None;
         }
         FormatHint.Text = MobileConverter.Description(format);
@@ -71,10 +71,60 @@ public partial class MainPage : ContentPage
             Files.Add(new FileItem(name, path, size));
     }
 
+    private bool? _wide;
+
+    protected override void OnSizeAllocated(double width, double height)
+    {
+        base.OnSizeAllocated(width, height);
+        // Tablet deitado (ou tela larga): duas colunas. Em pé ou celular: uma coluna.
+        if (width > 0) ApplyLayout(width > height && width >= 840);
+    }
+
+    private void ApplyLayout(bool wide)
+    {
+        if (_wide == wide) return;
+        _wide = wide;
+
+        Body.ColumnDefinitions.Clear();
+        Body.RowDefinitions.Clear();
+        Body.RowDefinitions.Add(new RowDefinition(GridLength.Star));
+        Body.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
+
+        MainStack.Remove(StepFormat);
+        SideStack.Remove(StepFormat);
+
+        if (wide)
+        {
+            Body.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Star));
+            Body.ColumnDefinitions.Add(new ColumnDefinition(new GridLength(440)));
+            SideStack.Add(StepFormat);
+
+            Grid.SetColumn(MainScroll, 0); Grid.SetRow(MainScroll, 0); Grid.SetRowSpan(MainScroll, 2);
+            Grid.SetColumn(SideScroll, 1); Grid.SetRow(SideScroll, 0);
+            Grid.SetColumn(ActionBar, 1); Grid.SetRow(ActionBar, 1);
+            SideScroll.IsVisible = true;
+            ActionBar.Margin = new Thickness(0, 0, 20, 20);
+            ActionBar.StrokeShape = new Microsoft.Maui.Controls.Shapes.RoundRectangle { CornerRadius = 16 };
+        }
+        else
+        {
+            Body.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Star));
+            MainStack.Add(StepFormat);
+
+            Grid.SetColumn(MainScroll, 0); Grid.SetRow(MainScroll, 0); Grid.SetRowSpan(MainScroll, 1);
+            Grid.SetColumn(ActionBar, 0); Grid.SetRow(ActionBar, 1);
+            SideScroll.IsVisible = false;
+            ActionBar.Margin = new Thickness(0);
+            ActionBar.StrokeShape = new Microsoft.Maui.Controls.Shapes.Rectangle();
+        }
+    }
+
     private void RefreshState()
     {
-        EmptyHint.IsVisible = Files.Count == 0;
-        FilesHeader.Text = Files.Count == 0 ? "ARQUIVOS" : $"ARQUIVOS ({Files.Count})";
+        FilesHeader.Text = Files.Count == 0 ? "Escolha os PDFs" : $"PDFs escolhidos ({Files.Count})";
+        PickTitle.Text = Files.Count == 0 ? "Toque aqui para escolher" : "Adicionar mais PDFs";
+        if (!_busy && Files.All(f => f.Status == FileStatus.Waiting))
+            ProgressText.Text = Files.Count == 0 ? "Escolha os PDFs para começar." : $"Tudo pronto. Toque em Converter.";
         ClearButton.IsEnabled = !_busy && Files.Count > 0;
         ConvertButton.IsEnabled = !_busy && Files.Count > 0;
         ConvertButton.Opacity = ConvertButton.IsEnabled ? 1 : 0.4;
