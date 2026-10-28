@@ -6,7 +6,7 @@
              BackgroundColor="{StaticResource Bg}"
              Shell.NavBarIsVisible="False">
 
-    <Grid RowDefinitions="Auto,*,Auto">
+    <Grid RowDefinitions="Auto,*,Auto,Auto">
 
         <!-- Cabeçalho -->
         <Grid Grid.Row="0" BackgroundColor="{StaticResource Surface}" Padding="20,14">
@@ -96,15 +96,21 @@
                     </VerticalStackLayout>
                 </Border>
 
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Barra de ação fixa: sempre visível, sem precisar rolar -->
+        <Grid Grid.Row="2" BackgroundColor="{StaticResource Surface}" Padding="20,12">
+            <VerticalStackLayout Spacing="8" MaximumWidthRequest="920">
                 <Label x:Name="ProgressText" Text="Pronto." Style="{StaticResource MutedLabel}" />
                 <ProgressBar x:Name="Progress" Progress="0" ProgressColor="{StaticResource Accent2}" />
                 <Button x:Name="ConvertButton" Text="Converter" FontSize="17" FontAttributes="Bold" TextColor="White"
                         HeightRequest="56" CornerRadius="14" Background="{StaticResource AccentGradient}" Clicked="OnConvert" />
             </VerticalStackLayout>
-        </ScrollView>
+        </Grid>
 
         <!-- Rodapé -->
-        <HorizontalStackLayout Grid.Row="2" HorizontalOptions="Center" Padding="0,10,0,14" Spacing="4">
+        <HorizontalStackLayout Grid.Row="3" HorizontalOptions="Center" Padding="0,8,0,10" Spacing="4" BackgroundColor="{StaticResource Surface}">
             <Label Text="Desenvolvido por" Style="{StaticResource MutedLabel}" FontSize="12" />
             <Label Text="Bruno Siqueira" FontSize="12" FontAttributes="Bold" />
         </HorizontalStackLayout>

@@ -52,11 +52,16 @@ public static class IncomingFiles
     private static (string, string, long) CopyToCache(Android.Net.Uri uri)
     {
         var resolver = Android.App.Application.Context.ContentResolver!;
-        string name = "documento.pdf";
-        using (var cursor = resolver.Query(uri, new[] { IOpenableColumns.DisplayName }, null, null, null))
+        string name = uri.LastPathSegment is { Length: > 0 } last ? System.IO.Path.GetFileName(last) : "documento.pdf";
+        try
         {
+            using var cursor = resolver.Query(uri, new[] { IOpenableColumns.DisplayName }, null, null, null);
             if (cursor is not null && cursor.MoveToFirst())
                 name = cursor.GetString(0) ?? name;
+        }
+        catch
+        {
+            // Alguns apps não informam o nome; fica o nome do caminho.
         }
         if (!name.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase)) name += ".pdf";
 
