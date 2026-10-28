@@ -12,7 +12,7 @@
     <AssemblyName>EnvyConverter</AssemblyName>
     <ApplicationIcon>Assets\app.ico</ApplicationIcon>
     <Product>Envy Converter</Product>
-    <Version>1.0.0</Version>
+    <Version>1.1.0</Version>
     <Authors>Bruno Siqueira</Authors>
     <Company>Bruno Siqueira</Company>
     <Copyright>Desenvolvido por Bruno Siqueira</Copyright>
@@ -23,7 +23,11 @@
     <SelfContained>true</SelfContained>
     <PublishSingleFile>true</PublishSingleFile>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
-    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <!-- Sem compressão: executáveis que se autodescompactam são vistos com mais desconfiança pelos antivírus. -->
+    <EnableCompressionInSingleFile>false</EnableCompressionInSingleFile>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <FileVersion>1.1.0.0</FileVersion>
+    <AssemblyTitle>Envy Converter</AssemblyTitle>
     <DebugType>embedded</DebugType>
   </PropertyGroup>
 
