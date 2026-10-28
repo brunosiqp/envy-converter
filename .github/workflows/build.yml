@@ -79,9 +79,14 @@ jobs:
           -p:AndroidSdkDirectory=$ANDROID_HOME -p:JavaSdkDirectory=$JAVA_HOME -p:AcceptAndroidSDKLicenses=True
 
       - name: Gerar APK
-        run: >
-          dotnet publish src/EnvyConverter.Mobile/EnvyConverter.Mobile.csproj -c Release -o apk-out
-          -p:AndroidSdkDirectory=$ANDROID_HOME -p:JavaSdkDirectory=$JAVA_HOME
+        run: |
+          set -o pipefail
+          dotnet publish src/EnvyConverter.Mobile/EnvyConverter.Mobile.csproj -c Release -o apk-out \
+            -p:AndroidSdkDirectory=$ANDROID_HOME -p:JavaSdkDirectory=$JAVA_HOME 2>&1 | tee build.log || {
+            # Mostra os erros como anotações, para aparecerem no resumo da execução.
+            grep -E ": error |error [A-Z]+[0-9]+" build.log | sort -u | head -40 | while read -r line; do echo "::error::$line"; done
+            exit 1
+          }
 
       - name: Separar APK
         run: |
