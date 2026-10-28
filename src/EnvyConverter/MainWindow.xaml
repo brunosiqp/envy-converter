@@ -7,30 +7,22 @@
         AllowDrop="True" Drop="OnDrop" DragOver="OnDragOver" DragLeave="OnDragLeave"
         TextOptions.TextFormattingMode="Display" UseLayoutRounding="True">
 
-    <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="44" ResizeBorderThickness="6" CornerRadius="0" GlassFrameThickness="0" UseAeroCaptionButtons="False" />
-    </WindowChrome.WindowChrome>
 
     <Grid x:Name="Root">
         <Grid.RowDefinitions>
-            <RowDefinition Height="44" />
+            <RowDefinition Height="52" />
             <RowDefinition Height="*" />
             <RowDefinition Height="34" />
         </Grid.RowDefinitions>
 
-        <!-- Barra de título -->
+        <!-- Cabeçalho (a barra de título com minimizar/maximizar/fechar é a nativa do Windows) -->
         <Grid Grid.Row="0" Background="{DynamicResource SurfaceBrush}">
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="16,0,0,0">
-                <Image Source="pack://application:,,,/Assets/app.png" Width="22" Height="22" />
-                <TextBlock x:Name="AppTitle" Text="Envy Converter" FontSize="14" FontWeight="SemiBold" Margin="10,0,0,0" VerticalAlignment="Center" />
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="20,0,0,0">
+                <Image Source="pack://application:,,,/Assets/app.png" Width="24" Height="24" />
+                <TextBlock x:Name="AppTitle" Text="Envy Converter" FontSize="15" FontWeight="SemiBold" Margin="10,0,0,0" VerticalAlignment="Center" />
                 <Border CornerRadius="6" Background="{DynamicResource SurfaceHighBrush}" Margin="10,0,0,0" Padding="7,2" VerticalAlignment="Center">
                     <TextBlock Text="PDF → DOCX e mais" FontSize="11" Foreground="{DynamicResource MutedBrush}" />
                 </Border>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Style="{StaticResource TitleButton}" Content="&#xE921;" Click="OnMinimize" ToolTip="Minimizar" />
-                <Button Style="{StaticResource TitleButton}" Content="&#xE922;" Click="OnMaximize" ToolTip="Maximizar" />
-                <Button Style="{StaticResource TitleButton}" Content="&#xE8BB;" Click="OnClose" ToolTip="Fechar" />
             </StackPanel>
             <Border VerticalAlignment="Bottom" Height="1" Background="{DynamicResource LineBrush}" />
         </Grid>
@@ -145,13 +137,8 @@
                         <TextBlock x:Name="FormatHint" Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,2,0,0" />
                     </StackPanel>
 
-                    <StackPanel Grid.Row="1" Margin="0,18,0,0">
-                        <TextBlock Text="MOTOR DE CONVERSÃO" Style="{StaticResource SectionTitle}" />
-                        <ListBox x:Name="EngineList" Style="{StaticResource ChipList}" SelectionChanged="OnOptionChanged" />
-                        <TextBlock x:Name="EngineHint" Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,2,0,0" />
-                    </StackPanel>
 
-                    <StackPanel Grid.Row="2" Margin="0,18,0,0">
+                    <StackPanel Grid.Row="1" Margin="0,22,0,0">
                         <TextBlock Text="SALVAR EM" Style="{StaticResource SectionTitle}" />
                         <Border CornerRadius="9" Background="{DynamicResource SurfaceHighBrush}" BorderBrush="{DynamicResource LineBrush}" BorderThickness="1" Padding="12,9">
                             <TextBlock x:Name="OutputFolderText" Text="Mesma pasta do arquivo original" FontSize="12"
@@ -174,7 +161,6 @@
 
         <!-- Rodapé -->
         <Grid Grid.Row="2" Margin="22,0,22,0">
-            <TextBlock x:Name="EngineStatus" Style="{StaticResource Muted}" FontSize="11" VerticalAlignment="Center" />
             <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="11" Style="{StaticResource Muted}">
                 <Run Text="Desenvolvido por" />
                 <Run Text="Bruno Siqueira" FontWeight="SemiBold" Foreground="{DynamicResource TextBrush}" />

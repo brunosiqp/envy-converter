@@ -39,22 +39,6 @@ public partial class MainWindow : Window
         };
         FormatList.SelectedIndex = 0;
 
-        EngineList.ItemsSource = new List<ChipOption<EngineChoice>>
-        {
-            Chip("Automático", EngineChoice.Auto, "Usa o melhor motor disponível e tenta o próximo se algum falhar."),
-            Chip("Word", EngineChoice.Word, _service.Word.IsAvailable
-                ? "Microsoft Word instalado: maior fidelidade." : "Microsoft Word não encontrado neste computador.", _service.Word.IsAvailable),
-            Chip("LibreOffice", EngineChoice.LibreOffice, _service.LibreOffice.IsAvailable
-                ? "LibreOffice instalado." : "LibreOffice não encontrado neste computador.", _service.LibreOffice.IsAvailable),
-            Chip("Interno", EngineChoice.BuiltIn, "Embutido no programa, não precisa de nada instalado. Apenas PDF de entrada."),
-        };
-        EngineList.SelectedIndex = 0;
-
-        EngineStatus.Text = "Motores: Interno ✓   ·   Word " + (_service.Word.IsAvailable ? "✓" : "—") +
-                            "   ·   LibreOffice " + (_service.LibreOffice.IsAvailable ? "✓" : "—");
-
-        StateChanged += (_, _) => Root.Margin = WindowState == WindowState.Maximized ? new Thickness(7) : new Thickness(0);
-
         // Permite "Abrir com" e arrastar arquivos sobre o .exe.
         AddFiles(Environment.GetCommandLineArgs().Skip(1));
         RefreshState();
@@ -64,7 +48,14 @@ public partial class MainWindow : Window
         new() { Label = label, Value = value, Description = description, IsAvailable = available };
 
     private OutputFormat SelectedFormat => ((ChipOption<OutputFormat>)FormatList.SelectedItem).Value;
-    private EngineChoice SelectedEngine => ((ChipOption<EngineChoice>)EngineList.SelectedItem).Value;
+    // Sempre automático: usa o melhor motor disponível e tenta o próximo se um falhar.
+    private const EngineChoice Engine = EngineChoice.Auto;
+
+    protected override void OnSourceInitialized(EventArgs e)
+    {
+        base.OnSourceInitialized(e);
+        NativeTitleBar.Apply(this);
+    }
 
     private void AddFiles(IEnumerable<string> paths)
     {
@@ -84,23 +75,21 @@ public partial class MainWindow : Window
 
     private void RefreshState()
     {
-        if (FormatList.SelectedItem is not ChipOption<OutputFormat> format ||
-            EngineList.SelectedItem is not ChipOption<EngineChoice> engine) return;
+        if (FormatList.SelectedItem is not ChipOption<OutputFormat> format) return;
 
         FormatHint.Text = format.Description;
-        EngineHint.Text = engine.Description;
         EmptyHint.Visibility = _files.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
         FilesHeader.Text = _files.Count == 0 ? "ARQUIVOS" : $"ARQUIVOS ({_files.Count})";
         ClearButton.IsEnabled = !_busy && _files.Count > 0;
         ConvertButton.IsEnabled = !_busy && _files.Count > 0;
-        FormatList.IsEnabled = EngineList.IsEnabled = !_busy;
+        FormatList.IsEnabled = !_busy;
         ConvertButton.Content = _busy ? "Convertendo…" : _files.Count > 1 ? $"Converter {_files.Count} arquivos" : "Converter";
     }
 
     private async void OnConvert(object sender, RoutedEventArgs e)
     {
         var format = SelectedFormat;
-        var engine = SelectedEngine;
+        var engine = Engine;
         var queue = _files.ToList();
         int ok = 0, failed = 0;
 
@@ -120,7 +109,7 @@ public partial class MainWindow : Window
 
                 var result = await _service.ConvertAsync(item.Path, format, engine, _outputFolder, CancellationToken.None);
                 item.OutputPath = result.OutputPath;
-                item.Detail = $"Salvo em {result.OutputPath}  ·  motor: {result.EngineName}  ·  verificado ✓";
+                item.Detail = $"Salvo em {result.OutputPath}  ·  verificado ✓";
                 item.Status = FileStatus.Done;
                 ok++;
             }
@@ -146,7 +135,7 @@ public partial class MainWindow : Window
         if (ext == ".pdf" && format == OutputFormat.Pdf) return "O arquivo já é PDF.";
         if (ext != ".pdf" && format is OutputFormat.DocxFiel or OutputFormat.Png or OutputFormat.Jpg)
             return "Este formato só está disponível para arquivos PDF.";
-        return $"Para {ConversionService.Label(format)} a partir de {ext.TrimStart('.').ToUpperInvariant()}, instale o Microsoft Word ou o LibreOffice (ou escolha o motor Automático).";
+        return $"Para {ConversionService.Label(format)} a partir de {ext.TrimStart('.').ToUpperInvariant()}, é preciso ter o Microsoft Word ou o LibreOffice instalado.";
     }
 
     private void OnPickFiles(object sender, RoutedEventArgs e)
@@ -209,10 +198,4 @@ public partial class MainWindow : Window
 
     private void OnOptionChanged(object sender, SelectionChangedEventArgs e) => RefreshState();
 
-    private void OnMinimize(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
-
-    private void OnMaximize(object sender, RoutedEventArgs e) =>
-        WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
-
-    private void OnClose(object sender, RoutedEventArgs e) => Close();
 }
