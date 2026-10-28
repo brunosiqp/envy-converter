@@ -61,10 +61,10 @@ public sealed class FileItem : INotifyPropertyChanged
 
     public Color StatusColor => Status switch
     {
-        FileStatus.Working => Color.FromArgb("#22D3EE"),
-        FileStatus.Done => Color.FromArgb("#34D399"),
-        FileStatus.Failed => Color.FromArgb("#F87171"),
-        _ => Color.FromArgb("#9AA1C9"),
+        FileStatus.Working => Color.FromArgb("#0E8AA1"),
+        FileStatus.Done => Color.FromArgb("#4EC9B0"),
+        FileStatus.Failed => Color.FromArgb("#F14C4C"),
+        _ => Color.FromArgb("#8B98A5"),
     };
 
     public event PropertyChangedEventHandler? PropertyChanged;

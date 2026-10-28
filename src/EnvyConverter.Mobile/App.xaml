@@ -4,20 +4,21 @@
              x:Class="EnvyConverter.Mobile.App">
     <Application.Resources>
         <ResourceDictionary>
-            <Color x:Key="Bg">#0E1120</Color>
-            <Color x:Key="Surface">#161A2E</Color>
-            <Color x:Key="SurfaceHigh">#1F2440</Color>
-            <Color x:Key="Line">#2C3256</Color>
-            <Color x:Key="Text">#EEF0FF</Color>
-            <Color x:Key="Muted">#9AA1C9</Color>
-            <Color x:Key="Accent">#7C5CFF</Color>
-            <Color x:Key="Accent2">#22D3EE</Color>
-            <Color x:Key="Success">#34D399</Color>
-            <Color x:Key="Error">#F87171</Color>
+            <Color x:Key="Bg">#0B0F14</Color>
+            <Color x:Key="Surface">#181F27</Color>
+            <Color x:Key="SurfaceHigh">#212A34</Color>
+            <Color x:Key="Line">#2C3740</Color>
+            <Color x:Key="Text">#E6EDF3</Color>
+            <Color x:Key="Muted">#8B98A5</Color>
+            <Color x:Key="Accent">#2DB8CF</Color>
+            <Color x:Key="Accent2">#0E8AA1</Color>
+            <Color x:Key="Lime">#B0CB1C</Color>
+            <Color x:Key="Success">#4EC9B0</Color>
+            <Color x:Key="Error">#F14C4C</Color>
 
             <LinearGradientBrush x:Key="AccentGradient" StartPoint="0,0" EndPoint="1,1">
-                <GradientStop Color="#7C5CFF" Offset="0" />
-                <GradientStop Color="#22D3EE" Offset="1" />
+                <GradientStop Color="#2DB8CF" Offset="0" />
+                <GradientStop Color="#0E8AA1" Offset="1" />
             </LinearGradientBrush>
 
             <Style TargetType="Label">

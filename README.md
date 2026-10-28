@@ -84,17 +84,17 @@ As cores ficam no arquivo **`tema.json`**, ao lado do `.exe`. Abra no Bloco de N
 
 ```json
 {
-  "Fundo": "#0E1120",
-  "Superficie": "#161A2E",
-  "SuperficieAlta": "#1F2440",
-  "Borda": "#2C3256",
-  "Texto": "#EEF0FF",
-  "TextoSuave": "#9AA1C9",
-  "Destaque": "#7C5CFF",
-  "Destaque2": "#22D3EE",
-  "Sucesso": "#34D399",
-  "Erro": "#F87171",
-  "Aviso": "#FBBF24",
+  "Fundo": "#0B0F14",
+  "Superficie": "#181F27",
+  "SuperficieAlta": "#212A34",
+  "Borda": "#2C3740",
+  "Texto": "#E6EDF3",
+  "TextoSuave": "#8B98A5",
+  "Destaque": "#2DB8CF",
+  "Destaque2": "#0E8AA1",
+  "Sucesso": "#4EC9B0",
+  "Erro": "#F14C4C",
+  "Aviso": "#E8A33D",
   "NomeApp": "Envy Converter"
 }
 ```

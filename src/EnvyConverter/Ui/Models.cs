@@ -62,7 +62,7 @@ public sealed class FileItem : INotifyPropertyChanged
 
     public Brush StatusBrush => (Brush)Application.Current.Resources[Status switch
     {
-        FileStatus.Working => "Accent2Brush",
+        FileStatus.Working => "AccentBrush",
         FileStatus.Done => "SuccessBrush",
         FileStatus.Failed => "ErrorBrush",
         _ => "MutedBrush",

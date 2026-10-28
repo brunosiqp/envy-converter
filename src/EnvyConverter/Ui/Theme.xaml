@@ -2,20 +2,21 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!-- Cores padrão. Sobrescritas em tempo de execução pelo tema.json ao lado do executável. -->
-    <SolidColorBrush x:Key="BgBrush" Color="#0E1120" />
-    <SolidColorBrush x:Key="SurfaceBrush" Color="#161A2E" />
-    <SolidColorBrush x:Key="SurfaceHighBrush" Color="#1F2440" />
-    <SolidColorBrush x:Key="LineBrush" Color="#2C3256" />
-    <SolidColorBrush x:Key="TextBrush" Color="#EEF0FF" />
-    <SolidColorBrush x:Key="MutedBrush" Color="#9AA1C9" />
-    <SolidColorBrush x:Key="AccentBrush" Color="#7C5CFF" />
-    <SolidColorBrush x:Key="Accent2Brush" Color="#22D3EE" />
-    <SolidColorBrush x:Key="SuccessBrush" Color="#34D399" />
-    <SolidColorBrush x:Key="ErrorBrush" Color="#F87171" />
-    <SolidColorBrush x:Key="WarnBrush" Color="#FBBF24" />
+    <SolidColorBrush x:Key="BgBrush" Color="#0B0F14" />
+    <SolidColorBrush x:Key="SurfaceBrush" Color="#181F27" />
+    <SolidColorBrush x:Key="SurfaceHighBrush" Color="#212A34" />
+    <SolidColorBrush x:Key="LineBrush" Color="#2C3740" />
+    <SolidColorBrush x:Key="TextBrush" Color="#E6EDF3" />
+    <SolidColorBrush x:Key="MutedBrush" Color="#8B98A5" />
+    <SolidColorBrush x:Key="AccentBrush" Color="#2DB8CF" />
+    <SolidColorBrush x:Key="Accent2Brush" Color="#0E8AA1" />
+    <SolidColorBrush x:Key="LimeBrush" Color="#B0CB1C" />
+    <SolidColorBrush x:Key="SuccessBrush" Color="#4EC9B0" />
+    <SolidColorBrush x:Key="ErrorBrush" Color="#F14C4C" />
+    <SolidColorBrush x:Key="WarnBrush" Color="#E8A33D" />
     <LinearGradientBrush x:Key="AccentGradient" StartPoint="0,0" EndPoint="1,1">
-        <GradientStop Color="#7C5CFF" Offset="0" />
-        <GradientStop Color="#22D3EE" Offset="1" />
+        <GradientStop Color="#2DB8CF" Offset="0" />
+        <GradientStop Color="#0E8AA1" Offset="1" />
     </LinearGradientBrush>
 
     <FontFamily x:Key="UiFont">Segoe UI Variable Display, Segoe UI</FontFamily>
