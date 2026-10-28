@@ -1,0 +1,2 @@
+APK do Envy Converter para Android, assinado pelo autor.
+O CI anexa este arquivo à Release. Desenvolvido por Bruno Siqueira.
