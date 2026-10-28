@@ -25,7 +25,7 @@
 
                 <VerticalStackLayout Spacing="4">
                     <Label Text="Converta sem perder nada" FontSize="26" FontAttributes="Bold" />
-                    <Label Style="{StaticResource Muted}" FontSize="14"
+                    <Label Style="{StaticResource MutedLabel}" FontSize="14"
                            Text="O original nunca é alterado. Cada arquivo gerado é aberto e conferido antes de ser salvo." />
                 </VerticalStackLayout>
 
@@ -41,7 +41,7 @@
                             <Label Text="+" FontSize="32" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" />
                         </Border>
                         <Label Text="Toque para escolher os PDFs" FontSize="17" FontAttributes="Bold" HorizontalOptions="Center" />
-                        <Label Style="{StaticResource Muted}" HorizontalOptions="Center" HorizontalTextAlignment="Center"
+                        <Label Style="{StaticResource MutedLabel}" HorizontalOptions="Center" HorizontalTextAlignment="Center"
                                Text="Também dá para compartilhar um PDF de outro app com o Envy Converter" />
                     </VerticalStackLayout>
                 </Border>
@@ -51,7 +51,7 @@
                     <VerticalStackLayout Spacing="10">
                         <Label Text="CONVERTER PARA" Style="{StaticResource Section}" />
                         <FlexLayout x:Name="FormatChips" Wrap="Wrap" JustifyContent="Start" />
-                        <Label x:Name="FormatHint" Style="{StaticResource Muted}" />
+                        <Label x:Name="FormatHint" Style="{StaticResource MutedLabel}" />
                     </VerticalStackLayout>
                 </Border>
 
@@ -62,7 +62,7 @@
                             <Label x:Name="FilesHeader" Text="ARQUIVOS" Style="{StaticResource Section}" VerticalOptions="Center" />
                             <Button x:Name="ClearButton" Grid.Column="1" Text="Limpar lista" Style="{StaticResource Ghost}" Clicked="OnClear" />
                         </Grid>
-                        <Label x:Name="EmptyHint" Text="Nenhum arquivo ainda." Style="{StaticResource Muted}"
+                        <Label x:Name="EmptyHint" Text="Nenhum arquivo ainda." Style="{StaticResource MutedLabel}"
                                HorizontalOptions="Center" Margin="0,18" />
                         <VerticalStackLayout x:Name="FileList" Spacing="6" BindableLayout.ItemsSource="{Binding Files}">
                             <BindableLayout.ItemTemplate>
@@ -77,7 +77,7 @@
                                             </Border>
                                             <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
                                                 <Label Text="{Binding Name}" FontSize="14" FontAttributes="Bold" LineBreakMode="TailTruncation" />
-                                                <Label Text="{Binding Detail}" Style="{StaticResource Muted}" FontSize="12" />
+                                                <Label Text="{Binding Detail}" Style="{StaticResource MutedLabel}" FontSize="12" />
                                             </VerticalStackLayout>
                                             <Border Grid.Column="2" StrokeThickness="0" StrokeShape="RoundRectangle 8" Padding="10,4"
                                                     BackgroundColor="{Binding StatusColor}" VerticalOptions="Center">
@@ -96,7 +96,7 @@
                     </VerticalStackLayout>
                 </Border>
 
-                <Label x:Name="ProgressText" Text="Pronto." Style="{StaticResource Muted}" />
+                <Label x:Name="ProgressText" Text="Pronto." Style="{StaticResource MutedLabel}" />
                 <ProgressBar x:Name="Progress" Progress="0" ProgressColor="{StaticResource Accent2}" />
                 <Button x:Name="ConvertButton" Text="Converter" FontSize="17" FontAttributes="Bold" TextColor="White"
                         HeightRequest="56" CornerRadius="14" Background="{StaticResource AccentGradient}" Clicked="OnConvert" />
@@ -105,7 +105,7 @@
 
         <!-- Rodapé -->
         <HorizontalStackLayout Grid.Row="2" HorizontalOptions="Center" Padding="0,10,0,14" Spacing="4">
-            <Label Text="Desenvolvido por" Style="{StaticResource Muted}" FontSize="12" />
+            <Label Text="Desenvolvido por" Style="{StaticResource MutedLabel}" FontSize="12" />
             <Label Text="Bruno Siqueira" FontSize="12" FontAttributes="Bold" />
         </HorizontalStackLayout>
     </Grid>

@@ -23,7 +23,7 @@
             <Style TargetType="Label">
                 <Setter Property="TextColor" Value="{StaticResource Text}" />
             </Style>
-            <Style x:Key="Muted" TargetType="Label">
+            <Style x:Key="MutedLabel" TargetType="Label">
                 <Setter Property="TextColor" Value="{StaticResource Muted}" />
                 <Setter Property="FontSize" Value="13" />
             </Style>
