@@ -37,12 +37,11 @@ O **Envy Converter** é um programa simples para Windows, com interface moderna 
 1. Vá em **[Releases](../../releases)** e baixe `EnvyConverter-win-x64.zip`.
 2. Extraia o zip numa pasta qualquer (ex.: `Documentos\EnvyConverter`).
 3. Dê dois cliques em **`EnvyConverter.exe`**.
-   - Se o Windows mostrar "O Windows protegeu o computador", clique em **Mais informações → Executar assim mesmo** (o programa não é assinado digitalmente).
+   - Se aparecer "O Windows protegeu o computador", veja [Aviso do Windows ao abrir](#aviso-do-windows-ao-abrir).
 4. **Arraste** os arquivos para a janela (ou clique na área tracejada para escolher). Pode arrastar vários arquivos ou uma pasta inteira.
 5. Em **Converter para**, escolha o formato (ex.: **DOCX**).
-6. Em **Motor de conversão**, deixe **Automático** (recomendado).
-7. Em **Salvar em**, deixe "Mesma pasta do arquivo original" ou escolha outra pasta.
-8. Clique em **Converter**. Quando terminar, clique em **Abrir** ao lado do arquivo para ver o resultado.
+6. Em **Salvar em**, deixe "Mesma pasta do arquivo original" ou escolha outra pasta.
+7. Clique em **Converter**. Quando terminar, clique em **Abrir** ao lado do arquivo para ver o resultado.
 
 > Dica: você também pode arrastar arquivos em cima do `EnvyConverter.exe` ou usar "Abrir com → EnvyConverter".
 
@@ -57,16 +56,19 @@ O **Envy Converter** é um programa simples para Windows, com interface moderna 
 | PDF | DOCX, DOC, RTF, ODT, TXT, HTML | Word, LibreOffice |
 | PNG, JPG | PDF | Interno |
 
-### Motores de conversão
+### Como ele converte (automático)
 
-| Motor | Precisa de | Quando usar |
+Você não precisa escolher nada: o programa usa sozinho o melhor motor disponível e, se um falhar, tenta o próximo.
+
+| Motor | Precisa de | Papel |
 |---|---|---|
-| **Automático** | — | Sempre que possível. Tenta Word → Interno → LibreOffice e passa para o próximo se um falhar. |
-| **Word** | Microsoft Word instalado | Maior fidelidade para PDF → DOCX. Roda escondido, você não vê o Word abrir. |
+| **Word** | Microsoft Word instalado | 1ª opção: maior fidelidade para PDF → DOCX. Roda escondido. |
 | **Interno** | Nada (vem no programa) | Funciona em qualquer Windows 10/11. Reconstrói o texto do PDF em parágrafos editáveis. |
-| **LibreOffice** | LibreOffice instalado (gratuito) | Alternativa sem o Word para DOC, RTF, ODT, HTML e PDF. |
+| **LibreOffice** | LibreOffice instalado (gratuito) | Alternativa para DOC, RTF, ODT, HTML e PDF quando não há Word. |
 
-O rodapé da janela mostra quais motores foram encontrados no seu computador.
+### Aviso do Windows ao abrir
+
+O programa **não pede permissão de administrador** e não instala nada. Mesmo assim, na primeira vez o Windows pode mostrar *"O Windows protegeu o computador"* (SmartScreen). Isso acontece com qualquer `.exe` novo baixado da internet que **não tem assinatura digital** (certificado de código, pago). Clique em **Mais informações → Executar assim mesmo**; depois disso não aparece mais. Para eliminar o aviso de vez, o executável precisa ser assinado com um certificado de assinatura de código.
 
 ### Por que não corrompe arquivos
 
@@ -128,6 +130,7 @@ src/EnvyConverter/
   MainWindow.xaml(.cs)     interface
   Ui/Theme.xaml            estilos e cores padrão
   Ui/ThemeLoader.cs        leitura do tema.json
+  Ui/NativeTitleBar.cs     barra de título nativa do Windows no tema escuro
   Conversion/
     ConversionService.cs   cópia segura, validação, fallback entre motores
     WordEngine.cs          Microsoft Word (automação COM)
@@ -173,12 +176,11 @@ It ships as a single `.exe`: **nothing to install**, not even .NET.
 1. Go to **[Releases](../../releases)** and download `EnvyConverter-win-x64.zip`.
 2. Extract it anywhere.
 3. Double-click **`EnvyConverter.exe`**.
-   - If Windows shows "Windows protected your PC", click **More info → Run anyway** (the app is not code-signed).
+   - If you see "Windows protected your PC", see [Windows warning on first launch](#windows-warning-on-first-launch).
 4. **Drag** files onto the window (or click the dashed area to browse). Multiple files or a whole folder work.
 5. Under **Converter para** (*Convert to*), pick a format (e.g. **DOCX**).
-6. Under **Motor de conversão** (*Engine*), keep **Automático** (*Automatic*, recommended).
-7. Under **Salvar em** (*Save to*), keep "same folder as the original" or choose another folder.
-8. Click **Converter**. When done, click **Abrir** (*Open*) next to the file.
+6. Under **Salvar em** (*Save to*), keep "same folder as the original" or choose another folder.
+7. Click **Converter**. When done, click **Abrir** (*Open*) next to the file.
 
 > Tip: you can also drop files on `EnvyConverter.exe` or use "Open with → EnvyConverter".
 
@@ -193,16 +195,19 @@ It ships as a single `.exe`: **nothing to install**, not even .NET.
 | PDF | DOCX, DOC, RTF, ODT, TXT, HTML | Word, LibreOffice |
 | PNG, JPG | PDF | Built-in |
 
-### Engines
+### How it converts (automatic)
 
-| Engine | Requires | When to use |
+Nothing to choose: the app picks the best available engine on its own and falls through to the next one if it fails.
+
+| Engine | Requires | Role |
 |---|---|---|
-| **Automatic** | — | Default. Tries Word → Built-in → LibreOffice and falls through on failure. |
-| **Word** | Microsoft Word installed | Best fidelity for PDF → DOCX. Runs hidden. |
+| **Word** | Microsoft Word installed | First choice: best fidelity for PDF → DOCX. Runs hidden. |
 | **Built-in** | Nothing | Works on any Windows 10/11. Rebuilds PDF text into editable paragraphs. |
-| **LibreOffice** | LibreOffice installed (free) | Word-free option for DOC, RTF, ODT, HTML and PDF. |
+| **LibreOffice** | LibreOffice installed (free) | Fallback for DOC, RTF, ODT, HTML and PDF without Word. |
 
-The window footer shows which engines were detected.
+### Windows warning on first launch
+
+The app **never asks for administrator rights** and installs nothing. Windows SmartScreen may still show *"Windows protected your PC"* the first time, as it does for any new **unsigned** `.exe` downloaded from the internet. Click **More info → Run anyway**; it won't show again. Removing it for good requires signing the executable with a code-signing certificate.
 
 ### Why files don't get corrupted
 
